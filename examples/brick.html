@@ -1,0 +1,61 @@
+<html>
+  <head>
+    <style>
+      
+    body {
+      margin: 0px;
+    }
+
+    </style>    
+  </head>
+  <body>
+    <div id="elm"></div>
+        
+    <script src="https://d3js.org/d3.v4.0.0-alpha.49.js"></script>
+    <script src="/d3-rs-polars.umd-es2015.js"></script>
+    <script>
+
+    'use strict';
+
+    d3.select('#elm').call(d3_rs_polars.html('empty'));
+    
+    d3.select('#elm').datum([ 0.75, 0.5, 0.25 ]).call(d3_rs_polars.html('basic').startAngle(1));
+
+    d3.select('#elm').datum([ 0.75, 0.5, 0.25 ]).call(d3_rs_polars.html('reverse').reverse(true).startAngle(1));
+
+    var animate =  d3_rs_polars.html('animate').fill(['red', 'green', 'blue']);
+    var data = [ 0.75 , 0.5 , 0.25 ];
+    var el = d3.select('#elm');
+    el.datum(data).call(animate);
+      
+    var i = 0.0;
+    setInterval(function() {
+      i += 0.05;
+
+      
+      el.datum(data.map(d => d - i)).transition().duration(333).call(animate);
+    }, 1000);
+
+    // Animation
+    var infinite = d3_rs_polars.html('infinite').padAngle(0.01);
+    var value = 0;
+    
+    d3.select('#elm').datum([ value ]).call(infinite);
+    function doit() {
+      var direction = (value === 0);
+      infinite.reverse(!direction);
+      if (direction)  { value = 1 } else { value = 0 };
+      d3.select('#elm')
+                .datum([ value ])
+                .transition()
+                .duration(1000)
+                .on('end', doit)
+                .on('interrupt', doit)
+                .call(infinite);
+    }
+    
+    doit();
+          
+    </script>
+  </body>
+</html>
