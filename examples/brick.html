@@ -50,7 +50,7 @@
                 .transition()
                 .duration(1000)
                 .on('end', doit)
-                .on('interrupt', doit)
+                .on('interrupt', doit) // note, this can cause resume flicker
                 .call(infinite);
     }
     
