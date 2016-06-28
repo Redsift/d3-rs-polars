@@ -5,6 +5,10 @@
     body {
       margin: 0px;
     }
+    
+    svg#svg-size {
+      background-color: lavender;
+    }
 
     </style>    
   </head>
@@ -17,11 +21,13 @@
 
     'use strict';
 
-    d3.select('#elm').call(d3_rs_polars.html('empty'));
+    d3.select('#elm').call(d3_rs_polars.html('empty').background('red'));
     
     d3.select('#elm').datum([ 0.75, 0.5, 0.25 ]).call(d3_rs_polars.html('basic').startAngle(1));
 
-    d3.select('#elm').datum([ 0.75, 0.5, 0.25 ]).call(d3_rs_polars.html('reverse').reverse(true).startAngle(1));
+    d3.select('#elm').datum([ 0.75, 0.5, 0.25 ]).call(d3_rs_polars.html('reverse').reverse(true).startAngle(1).thickness(10).padding(10));
+
+    d3.select('#elm').datum([ 0.75, 0.5, 0.25 ]).call(d3_rs_polars.html('size').size(400).legend('A'));
 
     var animate =  d3_rs_polars.html('animate').fill(['red', 'green', 'blue']);
     var data = [ 0.75 , 0.5 , 0.25 ];

@@ -1,9 +1,9 @@
 {
   "name": "@redsift/d3-rs-polars",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Generates polar charts using D3v4.",
   "keywords": [
-    "pie",
+    "polar",
     "redsift",
     "d3",
     "chart"

@@ -46,12 +46,31 @@
 
 ### Datum
 
-- Simplest form, array of numbers: `[1,2,3,4...]`
+- Simplest form, array of unit numbers: `[0.1, 1, 0.5 ,0.3...]`
 
 ### Parameters
 
 Property|Description|Transition|Preview
 ----|-----------|----------|-------
 `classed`|*String* SVG custom class|N
-`width`, `height`, `size`, `scale`|*Integer* SVG container sizes|Y
+`width`, `height`, `size`, `scale`|*Integer* SVG container sizes. Typically, use `size` to scale the chart|Y
+`margin`|*Object, Number* Margin affecting all chart elements
+`inset`|*Number* Margin affecting primary chart element
 `style`|*String* Custom CSS to inject into chart|N
+`background`|*Color*
+`theme`|*light|dark*
+`language`|*String*
+`outerRadius`|*Integer* Radius of the largest arc. Default is `null` and is set automatically as a funciton of the size|
+`padding`|*Number* Pixels between polar arcs|
+`thickness`|*Number* Pixel thickness of the arc|
+`cornerRadius`|*Number* Pixel rounding of the arc ends|
+`reverse`|*Boolean* Reverse the arc fill computation|
+`padAngle`|*Number* Radians to pad between the data values 0 and 1. By default, an arc between 0 and 1 will form a complete circle|
+`startAngle`|*Number* Radian position of 0|
+`displayValue`|
+`displayFormatValue`|
+`fill`|
+`displayTip`|
+`legend`|*Array*
+
+
