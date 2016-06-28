@@ -12,9 +12,9 @@ import {
 } from '@redsift/d3-rs-theme';
 
 const DEFAULT_SIZE = 270;
-const DEFAULT_ASPECT = 270 / 230;
-const DEFAULT_MARGIN = 40;  // white space
-const DEFAULT_INSET = 24;   // scale space
+const DEFAULT_ASPECT = 1;
+const DEFAULT_MARGIN = 12;  // white space
+const DEFAULT_INSET = 0;   // scale space
 const DEFAULT_LEGEND_SIZE = 10;
 const DEFAULT_LEGEND_PADDING_X = 8;
 const DEFAULT_LEGEND_PADDING_Y = 24;
@@ -47,11 +47,12 @@ export default function polars(id) {
       fill = null,
       displayValue = null,
       displayFormatValue = null,
-      outerRadius = 100,
+      outerRadius = null,
       reverse = false,
       thickness = DEFAULT_CORNER_RADIUS * 2,
       startAngle = 0,
       padAngle = 0,
+      padding = DEFAULT_LINE_PADDING,
       cornerRadius = DEFAULT_CORNER_RADIUS,
       previous = [ ],
       value = function (d) {
@@ -94,6 +95,7 @@ export default function polars(id) {
   function _impl(context) {
     let selection = context.selection ? context.selection() : context,
         transition = (context.selection !== undefined);
+
    
     formatDefaultLocale(units(language).d3);
     
@@ -194,6 +196,11 @@ export default function polars(id) {
         rg.selectAll('g').data(clens).attr('transform', (d) => 'translate(' + (offset + d) + ',0)');
       }            
       
+      let radius = outerRadius;
+      if (radius == null) {
+        radius = (Math.min(w, h) - 2 * inset) / 2;
+      }
+            
       let pad = padAngle / 2;
       let startA = () => startAngle + pad;
       let endA = d => d * 2 * Math.PI + startAngle - pad;
@@ -205,15 +212,15 @@ export default function polars(id) {
 
       let colors = _makeFillFn();
       let arcs = arc()
-            .innerRadius((d, i) => outerRadius - ((thickness + DEFAULT_LINE_PADDING) * (i + 1) ) + DEFAULT_LINE_PADDING)
-            .outerRadius((d, i) => outerRadius - ((thickness + DEFAULT_LINE_PADDING) * i ))
+            .innerRadius((d, i) => radius - ((thickness + padding) * (i + 1) ) + padding)
+            .outerRadius((d, i) => radius - ((thickness + padding) * i ))
             .startAngle(startA)
             .endAngle(endA)
             .cornerRadius(cornerRadius);
       
-            
+      let centerX = w / 2 - inset;      
       let polars = g.select('g.polar')
-                  .attr('transform', 'translate(' + outerRadius + ',' + outerRadius + ')')
+                  .attr('transform', 'translate(' + centerX + ',' + (radius + inset) + ')')
                   .selectAll('g.slice').data(vdata);  
       polars.exit().remove();
       let newSlices = polars.enter().append('g').attr('class', 'slice');
@@ -341,7 +348,15 @@ export default function polars(id) {
 
   _impl.cornerRadius = function(value) {
     return arguments.length ? (cornerRadius = value, _impl) : cornerRadius;
-  };        
+  };   
+
+  _impl.thickness = function(value) {
+    return arguments.length ? (thickness = value, _impl) : thickness;
+  };   
+
+  _impl.padding = function(value) {
+    return arguments.length ? (padding = value, _impl) : padding;
+  };  
       
   _impl.outerRadius = function(value) {
     return arguments.length ? (outerRadius = value, _impl) : outerRadius;
